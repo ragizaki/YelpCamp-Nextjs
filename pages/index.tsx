@@ -2,9 +2,10 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 
-import { PrismaClient, Camp, Prisma } from "@prisma/client";
+import CampCard from "../components/CampCard";
 
-const prisma = new PrismaClient();
+import { Camp } from "@prisma/client";
+import prisma from "../lib/prisma";
 
 export async function getServerSideProps() {
   const camps: Camp[] = await prisma.camp.findMany();
@@ -23,19 +24,7 @@ const Home: NextPage<Props> = ({ camps }: Props) => {
   return (
     <div>
       {camps.map((camp: Camp) => (
-        <div key={camp.id}>
-          <Image
-            width={100}
-            height={100}
-            src={camp.image}
-            alt={`Camp ${camp.name}`}
-          />
-          <p>
-            {camp.city}, {camp.state}
-          </p>
-          <p>{camp.price}</p>
-          <p>{camp.description}</p>
-        </div>
+        <CampCard key={camp.id} camp={camp} />
       ))}
     </div>
   );

@@ -1,10 +1,10 @@
 import { Prisma } from "@prisma/client";
 import { NextPage } from "next";
-import CampForm from "../components/CampForm";
+import CampForm from "../../components/CampForm";
 import axios from "axios";
 import { useRouter } from "next/router";
 
-const AddCamp: NextPage = () => {
+const AddCamp: React.FC = () => {
   const router = useRouter();
 
   const saveCamp = async (camp: Prisma.CampCreateInput) => {

@@ -5,7 +5,7 @@ interface Props {
   saveCamp: (camp: Prisma.CampCreateInput) => Promise<void>;
 }
 
-export default function CampForm({ saveCamp }: Props) {
+const CampForm: React.FC<Props> = ({ saveCamp }) => {
   const [formData, setFormData] = useState({
     name: "",
     image: "",
@@ -76,4 +76,6 @@ export default function CampForm({ saveCamp }: Props) {
       </form>
     </div>
   );
-}
+};
+
+export default CampForm;
