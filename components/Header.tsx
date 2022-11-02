@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { logger } from "@lib/logger";
-import { Button, HStack } from "@chakra-ui/react";
+import { Button, HStack, Text } from "@chakra-ui/react";
 
 const Header: React.FC = () => {
   const router = useRouter();
@@ -12,37 +12,21 @@ const Header: React.FC = () => {
 
   const { data: session, status } = useSession();
   logger.debug(session);
+
   let left = (
-    <HStack>
+    <>
+      <Text fontSize="2xl" as="b">
+        Yelp Camp
+      </Text>
       <Link href="/">
         <a className="bold" data-active={isActive("/")}>
-          Feed
+          Camps
         </a>
       </Link>
-    </HStack>
+    </>
   );
 
   let right = null;
-
-  if (status == "loading") {
-    left = (
-      <div>
-        <Link href="/">
-          <a data-active={isActive("/")}>Feed</a>
-        </Link>
-      </div>
-    );
-    right = (
-      <div>
-        <p>Validating session ...</p>
-        <style jsx>{`
-          .right {
-            margin-left: auto;
-          }
-        `}</style>
-      </div>
-    );
-  }
 
   if (!session) {
     right = (
@@ -53,16 +37,6 @@ const Header: React.FC = () => {
   }
 
   if (session) {
-    left = (
-      <HStack>
-        <Link href="/">
-          <a data-active={isActive("/")}>Camps</a>
-        </Link>
-        <Link href="/camps">
-          <a data-active={isActive("/posts")}>My Posts</a>
-        </Link>
-      </HStack>
-    );
     right = (
       <HStack>
         <p>{session.user.name}</p>
@@ -91,7 +65,14 @@ const Header: React.FC = () => {
         borderBottom="1px solid"
         shadow="md"
       >
-        {left}
+        <HStack spacing={3}>
+          {left}
+          {session && (
+            <Link href="/profile">
+              <a>My Posts</a>
+            </Link>
+          )}
+        </HStack>
         {right}
       </HStack>
     </nav>

@@ -3,7 +3,7 @@ import { GetServerSideProps } from "next";
 import Layout from "../components/Layout";
 import Post, { PostProps } from "../components/Post";
 import prisma from "../lib/prisma";
-import { Box, Heading, VStack } from "@chakra-ui/react";
+import { Box, Heading, Grid, GridItem } from "@chakra-ui/react";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const camps = await prisma.post.findMany({
@@ -28,14 +28,14 @@ const Camps: React.FC<Props> = (props) => {
   return (
     <Layout>
       <Box className="page" pt={5}>
-        <Heading>All Campsites</Heading>
-        <VStack mt={5} spacing={5}>
+        <Heading mb={5}>All Campsites</Heading>
+        <Grid templateColumns="repeat(3, 1fr)" gap={6}>
           {props.camps.map((camp) => (
-            <Box key={camp.id} w="full" shadow="lg">
+            <GridItem key={camp.id} w="full" shadow="lg">
               <Post post={camp} />
-            </Box>
+            </GridItem>
           ))}
-        </VStack>
+        </Grid>
       </Box>
     </Layout>
   );
