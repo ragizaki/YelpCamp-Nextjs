@@ -1,33 +1,44 @@
-import type { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
-
-import CampCard from "../components/CampCard";
-
-import { Camp } from "@prisma/client";
+import React from "react";
+import { GetServerSideProps } from "next";
+import Layout from "../components/Layout";
+import Post, { PostProps } from "../components/Post";
 import prisma from "../lib/prisma";
+import { Box, Heading, VStack } from "@chakra-ui/react";
 
-export async function getServerSideProps() {
-  const camps: Camp[] = await prisma.camp.findMany();
-  return {
-    props: {
-      camps,
+export const getServerSideProps: GetServerSideProps = async () => {
+  const camps = await prisma.post.findMany({
+    include: {
+      author: {
+        select: {
+          name: true,
+        },
+      },
     },
+  });
+  return {
+    props: { camps },
   };
-}
+};
 
-interface Props {
-  camps: Camp[];
-}
+type Props = {
+  camps: PostProps[];
+};
 
-const Home: NextPage<Props> = ({ camps }: Props) => {
+const Camps: React.FC<Props> = (props) => {
   return (
-    <div>
-      {camps.map((camp: Camp) => (
-        <CampCard key={camp.id} camp={camp} />
-      ))}
-    </div>
+    <Layout>
+      <Box className="page" pt={5}>
+        <Heading>All Campsites</Heading>
+        <VStack mt={5} spacing={5}>
+          {props.camps.map((camp) => (
+            <Box key={camp.id} w="full" shadow="lg">
+              <Post post={camp} />
+            </Box>
+          ))}
+        </VStack>
+      </Box>
+    </Layout>
   );
 };
 
-export default Home;
+export default Camps;
