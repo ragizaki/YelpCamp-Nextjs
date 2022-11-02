@@ -10,7 +10,7 @@ const userData: Prisma.UserCreateInput[] = [
       create: [
         {
           name: "Mississauga Camp",
-          price: "300",
+          price: 300,
           description: "Nice little campsite",
         },
       ],
@@ -23,7 +23,7 @@ const userData: Prisma.UserCreateInput[] = [
       create: [
         {
           name: "Mississauga Camp",
-          price: "300",
+          price: 300,
           description: "Nice little campsite",
         },
       ],
@@ -36,12 +36,12 @@ const userData: Prisma.UserCreateInput[] = [
       create: [
         {
           name: "Mississauga Camp",
-          price: "300",
+          price: 300,
           description: "Nice little campsite",
         },
         {
           name: "Mississauga Camp",
-          price: "300",
+          price: 300,
           description: "Nice little campsite",
         },
       ],

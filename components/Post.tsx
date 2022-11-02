@@ -1,12 +1,13 @@
 import Image from "next/image";
+import NextLink from "next/link";
 import {
   Box,
-  Center,
   Heading,
   Text,
   Stack,
   Avatar,
   useColorModeValue,
+  Link,
 } from "@chakra-ui/react";
 
 export type PostProps = {
@@ -70,6 +71,9 @@ const Post: React.FC<{ post: PostProps }> = ({ post }) => {
           <Text fontWeight={600}>{post.author.name}</Text>
           <Text color={"gray.500"}>{post.author.email}</Text>
         </Stack>
+        <NextLink href={`/p/${post.id}`} passHref>
+          <Link color="green">View More</Link>
+        </NextLink>
       </Stack>
     </Box>
   );
