@@ -19,18 +19,16 @@
     "@prisma/client": "3.5.0",
     "chalk": "^5.0.0",
     "crypto-js": "^4.1.1",
-    "framer-motion": "^4",
+    "framer-motion": "^7.6.4",
     "lodash": "^4.17.21",
     "loglevel": "^1.8.0",
     "loglevel-plugin-prefix": "^0.8.4",
     "next": "12.0.7",
     "next-auth": "^4.0.5",
-    "nodemailer": "^6.7.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-hook-form": "^7.21.0",
-    "react-icons": "^4.3.1",
-    "react-markdown": "7.1.1"
+    "react-icons": "^4.3.1"
   },
   "devDependencies": {
     "@types/next-auth": "3.13.0",

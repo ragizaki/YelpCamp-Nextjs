@@ -8,6 +8,7 @@ import {
   Avatar,
   useColorModeValue,
   Link,
+  Flex,
 } from "@chakra-ui/react";
 
 export type PostProps = {
@@ -15,6 +16,8 @@ export type PostProps = {
   name: string;
   price: number;
   description: string;
+  city: string;
+  country: string;
   author: {
     name: string;
     email: string;
@@ -42,15 +45,20 @@ const Post: React.FC<{ post: PostProps }> = ({ post }) => {
         />
       </Box>
       <Stack>
-        <Text
-          color={"green.500"}
-          textTransform={"uppercase"}
-          fontWeight={800}
-          fontSize={"sm"}
-          letterSpacing={1.1}
-        >
-          ${post.price} / day
-        </Text>
+        <Flex justifyContent="space-between" alignItems="center">
+          <Text
+            color={"green.500"}
+            textTransform={"uppercase"}
+            fontWeight={800}
+            fontSize={"sm"}
+            letterSpacing={1.1}
+          >
+            ${post.price} / day
+          </Text>
+          <Text fontWeight={400}>
+            {post.city}, {post.country}
+          </Text>
+        </Flex>
         <Heading
           color={useColorModeValue("gray.700", "white")}
           fontSize={"2xl"}
@@ -71,7 +79,7 @@ const Post: React.FC<{ post: PostProps }> = ({ post }) => {
           <Text fontWeight={600}>{post.author.name}</Text>
           <Text color={"gray.500"}>{post.author.email}</Text>
         </Stack>
-        <NextLink href={`/p/${post.id}`} passHref>
+        <NextLink href={`/camp/${post.id}`} passHref>
           <Link color="green">View More</Link>
         </NextLink>
       </Stack>
