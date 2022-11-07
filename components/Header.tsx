@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { logger } from "@lib/logger";
 import { Button, HStack, Text } from "@chakra-ui/react";
+import Search from "./Search";
 
 const Header: React.FC = () => {
   const router = useRouter();
@@ -72,6 +73,7 @@ const Header: React.FC = () => {
               <a>My Posts</a>
             </Link>
           )}
+          <Search />
         </HStack>
         {right}
       </HStack>

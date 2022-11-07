@@ -7,7 +7,6 @@ import prisma from "../../lib/prisma";
 import { useSession } from "next-auth/react";
 import { Button, Text, Box, Stack, Avatar, Flex } from "@chakra-ui/react";
 import ReviewForm from "../../components/ReviewForm";
-import { Rating } from "react-simple-star-rating";
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const post = await prisma.post.findUnique({
@@ -37,7 +36,7 @@ async function deletePost(id: number): Promise<void> {
 
 const Post: React.FC<{ post: PostProps }> = ({ post }) => {
   const { data: session, status } = useSession();
-  console.log(post.reviews);
+
   if (status === "loading") {
     return <div>Authenticating ...</div>;
   }
@@ -56,7 +55,7 @@ const Post: React.FC<{ post: PostProps }> = ({ post }) => {
           </Button>
         )}
       </div>
-      <ReviewForm />
+      {session && <ReviewForm />}
       <Stack spacing={3} mt={3}>
         <Text fontSize="2xl" fontWeight={500}>
           Reviews

@@ -88,7 +88,7 @@ const Post: React.FC<{ post: PostProps }> = ({ post }) => {
           <Text fontWeight={600}>{post.author.name}</Text>
           <Text color={"gray.500"}>{post.author.email}</Text>
         </Stack>
-        <NextLink href={`/camp/${post.id}`} passHref>
+        <NextLink href={`/camps/${post.id}`} passHref>
           <Link color="green">View More</Link>
         </NextLink>
       </Stack>
