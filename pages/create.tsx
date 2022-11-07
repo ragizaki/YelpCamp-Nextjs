@@ -10,6 +10,7 @@ import {
   InputLeftElement,
   Button,
   HStack,
+  useToast,
 } from "@chakra-ui/react";
 
 const Camp: React.FC = () => {
@@ -18,6 +19,7 @@ const Camp: React.FC = () => {
   const [price, setPrice] = useState("");
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
+  const toast = useToast();
 
   const submitData = async (e: React.SyntheticEvent) => {
     e.preventDefault();

@@ -17,6 +17,18 @@ model Post {
   country     String
   author      User?   @relation(fields: [authorId], references: [id])
   authorId    String?
+  reviews     Review[]
+}
+
+model Review {
+  id            String    @id @default(cuid())
+  userId        String
+  postId        Int
+  rating        Int
+  description   String
+  createdAt     DateTime  @default(now())
+  user          User      @relation(fields: [userId], references: [id])
+  post          Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
 }
 
 model Account {
@@ -58,6 +70,7 @@ model User {
   posts         Post[]
   accounts      Account[]
   sessions      Session[]
+  reviews       Review[]
 }
 
 model VerificationToken {

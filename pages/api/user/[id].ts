@@ -3,7 +3,7 @@ import prisma from "../../../lib/prisma";
 
 export default async function handle(
   req: NextApiRequest,
-  res: NextApiResponse,
+  res: NextApiResponse
 ) {
   const userId = req.query.id;
 
@@ -15,7 +15,7 @@ export default async function handle(
     handleDELETE(userId, res);
   } else {
     throw new Error(
-      `The HTTP ${req.method} method is not supported at this route.`,
+      `The HTTP ${req.method} method is not supported at this route.`
     );
   }
 }
@@ -23,8 +23,7 @@ export default async function handle(
 // GET /api/user/:id
 async function handleGET(userId, res) {
   const user = await prisma.user.findUnique({
-    where: { id: Number(userId) },
-    // include: { id: true, name: true, email: true, image: true },
+    where: { id: userId },
   });
   res.json(user);
 }
@@ -32,7 +31,7 @@ async function handleGET(userId, res) {
 // GET /api/user/:id
 async function handlePOST(userId, res, req) {
   const user = await prisma.user.update({
-    where: { id: Number(userId) },
+    where: { id: userId },
     data: { ...req.body },
   });
   return res.json(user);
@@ -41,7 +40,7 @@ async function handlePOST(userId, res, req) {
 // DELETE /api/user/:id
 async function handleDELETE(userId, res) {
   const user = await prisma.user.delete({
-    where: { id: Number(userId) },
+    where: { id: userId },
   });
   res.json(user);
 }

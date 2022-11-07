@@ -11,6 +11,17 @@ import {
   Flex,
 } from "@chakra-ui/react";
 
+type Author = {
+  name: string;
+  email: string;
+};
+
+type Review = {
+  id: string;
+  rating: number;
+  description: string;
+};
+
 export type PostProps = {
   id: number;
   name: string;
@@ -18,10 +29,8 @@ export type PostProps = {
   description: string;
   city: string;
   country: string;
-  author: {
-    name: string;
-    email: string;
-  } | null;
+  author: Author | null;
+  reviews: Review[];
 };
 
 const Post: React.FC<{ post: PostProps }> = ({ post }) => {
