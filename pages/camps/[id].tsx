@@ -14,7 +14,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     where: {
       id: Number(params?.id) || -1,
     },
-    select: {
+    include: {
       author: {
         select: {
           name: true,
@@ -59,6 +59,10 @@ const Post: React.FC<{ post: PostProps }> = ({ post }) => {
     <Layout>
       <div>
         <h2>{post.name}</h2>
+        <p>
+          Located in {post.city}, {post.country}
+        </p>
+        <p>Price per night: ${post.price}</p>
         <p>By {post?.author?.name || "Unknown author"}</p>
         <Text>{post.description}</Text>
         {userHasValidSession && postBelongsToUser && (
