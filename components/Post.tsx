@@ -20,6 +20,7 @@ type Review = {
   id: string;
   rating: number;
   description: string;
+  user: Author;
 };
 
 export type PostProps = {

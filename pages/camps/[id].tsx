@@ -7,18 +7,30 @@ import prisma from "../../lib/prisma";
 import { useSession } from "next-auth/react";
 import { Button, Text, Box, Stack, Avatar, Flex } from "@chakra-ui/react";
 import ReviewForm from "../../components/ReviewForm";
+import StarRating from "react-star-rating-component";
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const post = await prisma.post.findUnique({
     where: {
       id: Number(params?.id) || -1,
     },
-    include: {
+    select: {
       author: {
-        select: { name: true, email: true },
+        select: {
+          name: true,
+          email: true,
+        },
       },
       reviews: {
-        select: { rating: true, description: true },
+        select: {
+          rating: true,
+          description: true,
+          user: {
+            select: {
+              name: true,
+            },
+          },
+        },
       },
     },
   });
@@ -60,13 +72,14 @@ const Post: React.FC<{ post: PostProps }> = ({ post }) => {
         <Text fontSize="2xl" fontWeight={500}>
           Reviews
         </Text>
-        {post.reviews.map((review) => (
-          <Box border="1px solid grey" borderRadius="lg" p={3} key={review.id}>
+        {post.reviews.map(({ id, rating, description, user }) => (
+          <Box border="1px solid grey" borderRadius="lg" p={3} key={id}>
             <Flex alignItems="center" mb={2}>
-              <Avatar mr={2} size="sm" />
-              {post.author.name}
+              <Avatar mr={2} size="sm" alt={`rating of ${rating}`} />
+              {user?.name}
             </Flex>
-            <Text>"{review.description}"</Text>
+            <StarRating value={rating} editing={false} />
+            <Text>"{description}"</Text>
           </Box>
         ))}
       </Stack>
