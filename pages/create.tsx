@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "../components/Layout";
-import Router from "next/router";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 import {
   Text,
   Input,
@@ -11,6 +12,9 @@ import {
   Button,
   HStack,
   useToast,
+  Flex,
+  Spinner,
+  Center,
 } from "@chakra-ui/react";
 
 const Camp: React.FC = () => {
@@ -20,6 +24,24 @@ const Camp: React.FC = () => {
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
   const toast = useToast();
+  const router = useRouter();
+  const { status } = useSession();
+
+  useEffect(() => {
+    if (status !== "loading" && status !== "authenticated") {
+      router.push("/");
+    }
+  }, [status]);
+
+  if (status === "loading" || status !== "authenticated") {
+    return (
+      <div>
+        <Center mt="auto">
+          <Spinner />
+        </Center>
+      </div>
+    );
+  }
 
   const submitData = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -30,7 +52,7 @@ const Camp: React.FC = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-      await Router.push("/");
+      await router.push("/");
     } catch (error) {
       console.error(error);
     }
@@ -107,7 +129,7 @@ const Camp: React.FC = () => {
           <Button colorScheme="green" disabled={!name || !desc} type="submit">
             Create
           </Button>
-          <Button as="a" href="#" onClick={() => Router.push("/")} ml={3}>
+          <Button as="a" href="#" onClick={() => router.push("/")} ml={3}>
             Cancel
           </Button>
         </div>

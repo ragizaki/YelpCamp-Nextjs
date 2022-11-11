@@ -1,7 +1,8 @@
 import { GetServerSideProps } from "next";
-import Post, { PostProps } from "@components/Post";
+import { PostProps } from "@components/Post";
 import Layout from "@components/Layout";
-import { Text, Grid, GridItem } from "@chakra-ui/react";
+import PostGrid from "@components/PostGrid";
+import { Text } from "@chakra-ui/react";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   let { q } = context.query;
@@ -29,13 +30,7 @@ const SearchedCamps: React.FC<Props> = ({ posts, term }) => {
       <Text fontSize="3xl" mb={2}>
         Search Results for <strong>{term}</strong>
       </Text>
-      <Grid templateColumns="repeat(3, 1fr)" gap={6}>
-        {posts?.map((camp) => (
-          <GridItem key={camp.id} w="full" shadow="lg">
-            <Post post={camp} />
-          </GridItem>
-        ))}
-      </Grid>
+      <PostGrid posts={posts} />
     </Layout>
   );
 };

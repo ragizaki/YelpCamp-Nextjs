@@ -1,12 +1,13 @@
 import React from "react";
 import { GetServerSideProps } from "next";
-import Layout from "../components/Layout";
-import Post, { PostProps } from "../components/Post";
-import prisma from "../lib/prisma";
-import { Box, Heading, Grid, GridItem } from "@chakra-ui/react";
+import Layout from "@components/Layout";
+import { PostProps } from "@components/Post";
+import PostGrid from "@components/PostGrid";
+import prisma from "@lib/prisma";
+import { Box, Heading } from "@chakra-ui/react";
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const camps = await prisma.post.findMany({
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const posts = await prisma.post.findMany({
     include: {
       author: {
         select: {
@@ -16,26 +17,20 @@ export const getServerSideProps: GetServerSideProps = async () => {
     },
   });
   return {
-    props: { camps },
+    props: { posts },
   };
 };
 
 type Props = {
-  camps: PostProps[];
+  posts: PostProps[];
 };
 
-const Camps: React.FC<Props> = (props) => {
+const Camps: React.FC<Props> = ({ posts }) => {
   return (
     <Layout>
       <Box className="page" pt={5}>
         <Heading mb={5}>All Campsites</Heading>
-        <Grid templateColumns="repeat(3, 1fr)" gap={6}>
-          {props.camps.map((camp) => (
-            <GridItem key={camp.id} w="full" shadow="lg">
-              <Post post={camp} />
-            </GridItem>
-          ))}
-        </Grid>
+        <PostGrid posts={posts} />
       </Box>
     </Layout>
   );

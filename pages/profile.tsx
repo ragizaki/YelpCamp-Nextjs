@@ -1,15 +1,21 @@
 import React from "react";
 import { GetServerSideProps } from "next";
-import Layout from "../components/Layout";
-import Post, { PostProps } from "../components/Post";
-import { useSession, getSession } from "next-auth/react";
-import prisma from "../lib/prisma";
+import Layout from "@components/Layout";
+import { PostProps } from "@components/Post";
+import PostGrid from "@components/PostGrid";
+import { getSession } from "next-auth/react";
+import prisma from "@lib/prisma";
+import { Text } from "@chakra-ui/react";
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const session = await getSession({ req });
   if (!session) {
-    res.statusCode = 403;
-    return { props: { posts: [] } };
+    return {
+      redirect: {
+        permanent: true,
+        destination: "/",
+      },
+    };
   }
 
   const posts = await prisma.post.findMany({
@@ -27,47 +33,15 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   };
 };
 
-type Props = {
+interface Props {
   posts: PostProps[];
-};
+}
 
-const Posts: React.FC<Props> = (props) => {
-  const { data: session } = useSession();
-
-  if (!session) {
-    return (
-      <Layout>
-        <div>You need to be authenticated to view this page.</div>
-      </Layout>
-    );
-  }
-
+const Posts: React.FC<Props> = ({ posts }) => {
   return (
     <Layout>
-      <div className="page">
-        <h1>My Posts</h1>
-        <main>
-          {props.posts.map((post) => (
-            <div key={post.id} className="post">
-              <Post post={post} />
-            </div>
-          ))}
-        </main>
-      </div>
-      <style jsx>{`
-        .post {
-          background: white;
-          transition: box-shadow 0.1s ease-in;
-        }
-
-        .post:hover {
-          box-shadow: 1px 1px 3px #aaa;
-        }
-
-        .post + .post {
-          margin-top: 2rem;
-        }
-      `}</style>
+      <Text>My Posts</Text>
+      {posts && <PostGrid posts={posts} />}
     </Layout>
   );
 };
