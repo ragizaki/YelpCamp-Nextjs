@@ -23,6 +23,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
       },
       reviews: {
         select: {
+          id: true,
           rating: true,
           description: true,
           user: {
@@ -55,6 +56,16 @@ const Post: React.FC<{ post: PostProps }> = ({ post }) => {
   const userHasValidSession = Boolean(session);
   const postBelongsToUser = session?.user?.email === post.author?.email;
 
+  const handleReviewDelete = async (postId: number, reviewId: string) => {
+    const res = await fetch(
+      `http://localhost:3000/api/post/${postId}/review/${reviewId}`,
+      {
+        method: "DELETE",
+      }
+    );
+    await Router.reload();
+  };
+
   return (
     <Layout>
       <div>
@@ -78,11 +89,22 @@ const Post: React.FC<{ post: PostProps }> = ({ post }) => {
         </Text>
         {post.reviews.map(({ id, rating, description, user }) => (
           <Box border="1px solid grey" borderRadius="lg" p={3} key={id}>
-            <Flex alignItems="center" mb={2}>
-              <Avatar mr={2} size="sm" alt={`rating of ${rating}`} />
-              {user?.name}
+            <Flex alignItems="center" justifyContent="space-between" mb={2}>
+              <Box>
+                <Avatar mr={2} size="sm" alt={`rating of ${rating}`} />
+                {user?.name}
+              </Box>
+              {user?.name === session?.user?.name && (
+                <Button
+                  colorScheme="red"
+                  variant="outline"
+                  onClick={() => handleReviewDelete(post.id, id)}
+                >
+                  Delete
+                </Button>
+              )}
             </Flex>
-            <StarRating value={rating} editing={false} />
+            <StarRating name="rating" value={rating} editing={false} />
             <Text>"{description}"</Text>
           </Box>
         ))}

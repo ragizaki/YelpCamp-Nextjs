@@ -10,10 +10,6 @@ const Post: React.FC = () => {
 
   const router = useRouter();
 
-  const handleRating = (rate: number) => {
-    setRating(rate);
-  };
-
   const handleFormSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
@@ -36,7 +32,7 @@ const Post: React.FC = () => {
         Leave a Rating
       </Text>
       <div style={{ fontSize: "1.7rem" }}>
-        <StarRating onClick={handleRating} />
+        <StarRating name="rating" onStarClick={(value) => setRating(value)} />
       </div>
       <Textarea
         value={description}
