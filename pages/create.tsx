@@ -12,7 +12,6 @@ import {
   Button,
   HStack,
   useToast,
-  Flex,
   Spinner,
   Center,
 } from "@chakra-ui/react";
@@ -23,7 +22,7 @@ const Camp: React.FC = () => {
   const [price, setPrice] = useState("");
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
-  const toast = useToast();
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { status } = useSession();
 
@@ -46,13 +45,15 @@ const Camp: React.FC = () => {
   const submitData = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
+      setLoading(true);
       const body = { name, desc, price, city, country };
-      await fetch(`http://localhost:3000/api/post`, {
+      const res = await fetch(`http://localhost:3000/api/post`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-      await router.push("/");
+      const post = await res.json();
+      await router.push(`/camps/${post.id}`);
     } catch (error) {
       console.error(error);
     }
@@ -126,7 +127,12 @@ const Camp: React.FC = () => {
           borderColor="gray.400"
         />
         <div>
-          <Button colorScheme="green" disabled={!name || !desc} type="submit">
+          <Button
+            isLoading={loading}
+            colorScheme="green"
+            disabled={!name || !desc}
+            type="submit"
+          >
             Create
           </Button>
           <Button as="a" href="#" onClick={() => router.push("/")} ml={3}>

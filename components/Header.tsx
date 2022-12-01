@@ -102,12 +102,13 @@ const Header: React.FC = () => {
         </HStack>
         {session ? (
           <HStack spacing={3}>
-            <NextLink href="/" passHref>
+            <NextLink href="/create" passHref>
               <Link
                 mr={3}
                 color="gray.600"
                 _hover={{ color: "black" }}
                 _focus={{ textDecor: "none" }}
+                to
               >
                 Add Camp
               </Link>

@@ -1,12 +1,26 @@
-import React from "react";
+import React, { useRef } from "react";
 import { GetServerSideProps } from "next";
-import Layout from "../../components/Layout";
+import Layout from "@components/Layout";
 import Router from "next/router";
-import { PostProps } from "../../components/Post";
-import prisma from "../../lib/prisma";
+import { PostProps } from "@components/Post";
+import prisma from "@lib/prisma";
 import { useSession } from "next-auth/react";
-import { Button, Text, Box, Stack, Avatar, Flex } from "@chakra-ui/react";
-import ReviewForm from "../../components/ReviewForm";
+import {
+  Button,
+  Text,
+  Box,
+  Stack,
+  Avatar,
+  Flex,
+  useDisclosure,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+} from "@chakra-ui/react";
+import ReviewForm from "@components/ReviewForm";
 import StarRating from "react-star-rating-component";
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
@@ -49,6 +63,8 @@ async function deletePost(id: number): Promise<void> {
 
 const Post: React.FC<{ post: PostProps }> = ({ post }) => {
   const { data: session, status } = useSession();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = useRef();
 
   if (status === "loading") {
     return <div>Authenticating ...</div>;
@@ -77,9 +93,41 @@ const Post: React.FC<{ post: PostProps }> = ({ post }) => {
         <p>By {post?.author?.name || "Unknown author"}</p>
         <Text>{post.description}</Text>
         {userHasValidSession && postBelongsToUser && (
-          <Button onClick={() => deletePost(post.id)} colorScheme="red">
-            Delete
-          </Button>
+          <>
+            <Button onClick={onOpen} colorScheme="red">
+              Delete
+            </Button>
+            <AlertDialog
+              isOpen={isOpen}
+              leastDestructiveRef={cancelRef}
+              onClose={onClose}
+            >
+              <AlertDialogOverlay>
+                <AlertDialogContent>
+                  <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                    Delete Customer
+                  </AlertDialogHeader>
+
+                  <AlertDialogBody>
+                    Are you sure? You can't undo this action afterwards.
+                  </AlertDialogBody>
+
+                  <AlertDialogFooter>
+                    <Button ref={cancelRef} onClick={onClose}>
+                      Cancel
+                    </Button>
+                    <Button
+                      colorScheme="red"
+                      onClick={() => deletePost(post.id)}
+                      ml={3}
+                    >
+                      Delete
+                    </Button>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialogOverlay>
+            </AlertDialog>
+          </>
         )}
       </div>
       {session && <ReviewForm />}
