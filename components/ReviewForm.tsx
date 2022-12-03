@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Rating } from "react-simple-star-rating";
 import StarRating from "react-star-rating-component";
 import { useRouter } from "next/router";
 import { Button, Text, Textarea } from "@chakra-ui/react";
