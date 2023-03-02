@@ -2,38 +2,16 @@ import { GetServerSideProps } from "next";
 import Layout from "@components/Layout";
 import Router from "next/router";
 import { PostProps } from "@components/Post";
-import prisma from "@lib/prisma";
 import { useSession } from "next-auth/react";
 import { Button, Text, Box, Stack, Avatar, Flex } from "@chakra-ui/react";
 import ReviewForm from "@components/ReviewForm";
 import StarRating from "react-star-rating-component";
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const post = await prisma.post.findUnique({
-    where: {
-      id: Number(params?.id) || -1,
-    },
-    include: {
-      author: {
-        select: {
-          name: true,
-          email: true,
-        },
-      },
-      reviews: {
-        select: {
-          id: true,
-          rating: true,
-          description: true,
-          user: {
-            select: {
-              name: true,
-            },
-          },
-        },
-      },
-    },
-  });
+  const postId = Number(params?.id);
+  const res = await fetch(`http://localhost:3000/api/post/${postId}`);
+  const post = await res.json();
+
   return {
     props: { post },
   };

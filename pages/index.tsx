@@ -3,19 +3,11 @@ import { GetServerSideProps } from "next";
 import Layout from "@components/Layout";
 import { PostProps } from "@components/Post";
 import PostGrid from "@components/PostGrid";
-import prisma from "@lib/prisma";
 import { Box, Heading } from "@chakra-ui/react";
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  const posts = await prisma.post.findMany({
-    include: {
-      author: {
-        select: {
-          name: true,
-        },
-      },
-    },
-  });
+export const getServerSideProps: GetServerSideProps = async () => {
+  const res = await fetch("http://localhost:3000/api/post");
+  const posts = await res.json();
   return {
     props: { posts },
   };

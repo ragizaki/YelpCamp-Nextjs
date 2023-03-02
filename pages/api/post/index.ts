@@ -1,13 +1,23 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../../lib/prisma";
+import prisma from "@lib/prisma";
 import { getSession } from "next-auth/react";
 
-// POST /api/post
-// Required fields in body: name, desc, price, city, country
 export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  if (req.method === "POST") {
+    handlePOST(req, res);
+  } else if (req.method === "GET") {
+    handleGET(req, res);
+  } else {
+    res
+      .status(500)
+      .send({ message: `HTTP ${req.method} method is not supported` });
+  }
+}
+
+async function handlePOST(req: NextApiRequest, res: NextApiResponse) {
   const { name, desc, price, city, country } = req.body;
 
   const session = await getSession({ req });
@@ -26,4 +36,17 @@ export default async function handle(
   } else {
     res.status(401).send({ message: "Unauthorized" });
   }
+}
+
+async function handleGET(req: NextApiRequest, res: NextApiResponse) {
+  const posts = await prisma.post.findMany({
+    include: {
+      author: {
+        select: {
+          name: true,
+        },
+      },
+    },
+  });
+  res.json(posts);
 }
