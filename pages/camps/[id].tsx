@@ -2,7 +2,7 @@ import { GetServerSideProps } from "next";
 import Router from "next/router";
 import { PostProps } from "@components/Post";
 import { useSession } from "next-auth/react";
-import { Button, Text, Box, Stack, Avatar, Flex } from "@chakra-ui/react";
+import { Button, Text, Box, Stack, Avatar, Flex, Grid } from "@chakra-ui/react";
 import ReviewForm from "@components/ReviewForm";
 import StarRating from "react-star-rating-component";
 
@@ -41,8 +41,11 @@ const Post: React.FC<{ post: PostProps }> = ({ post }) => {
   };
 
   return (
-    <>
-      <div>
+    <Grid
+      templateColumns={{ base: "repeat(1, 1fr)", lg: "repeat(2, 1fr)" }}
+      gap={8}
+    >
+      <Box>
         <h2>{post.name}</h2>
         <p>
           Located in {post.city}, {post.country}
@@ -55,8 +58,8 @@ const Post: React.FC<{ post: PostProps }> = ({ post }) => {
             Delete
           </Button>
         )}
-      </div>
-      {session && <ReviewForm />}
+        <ReviewForm />
+      </Box>
       <Stack spacing={3} mt={3}>
         <Text fontSize="2xl" fontWeight={500}>
           Reviews
@@ -86,7 +89,7 @@ const Post: React.FC<{ post: PostProps }> = ({ post }) => {
           </Box>
         ))}
       </Stack>
-    </>
+    </Grid>
   );
 };
 
