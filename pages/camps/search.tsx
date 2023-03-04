@@ -1,7 +1,7 @@
 import { GetServerSideProps } from "next";
 import { PostProps } from "@components/Post";
 import PostGrid from "@components/PostGrid";
-import { Text } from "@chakra-ui/react";
+import { Heading } from "@chakra-ui/react";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   let { q } = context.query;
@@ -26,9 +26,7 @@ interface Props {
 const SearchedCamps: React.FC<Props> = ({ posts, term }) => {
   return (
     <>
-      <Text fontSize="3xl" mb={2}>
-        Search Results for <strong>{term}</strong>
-      </Text>
+      <Heading mb={5}>Search Results for {term}</Heading>
       <PostGrid posts={posts} />
     </>
   );

@@ -9,7 +9,7 @@ type Props = {
 const Layout: React.FC<Props> = (props) => (
   <Box>
     <Header />
-    <Box p={5} minH="89vh">
+    <Box p={10} pt={8} minH="89vh">
       {props.children}
     </Box>
   </Box>

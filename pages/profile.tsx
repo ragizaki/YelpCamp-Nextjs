@@ -1,11 +1,10 @@
 import React from "react";
 import { GetServerSideProps } from "next";
-import Layout from "@components/Layout";
 import { PostProps } from "@components/Post";
 import PostGrid from "@components/PostGrid";
 import { getSession } from "next-auth/react";
 import prisma from "@lib/prisma";
-import { Text } from "@chakra-ui/react";
+import { Heading } from "@chakra-ui/react";
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const session = await getSession({ req });
@@ -40,7 +39,7 @@ interface Props {
 const Posts: React.FC<Props> = ({ posts }) => {
   return (
     <>
-      <Text>My Posts</Text>
+      <Heading mb={5}>My Posts</Heading>
       {posts && <PostGrid posts={posts} />}
     </>
   );
