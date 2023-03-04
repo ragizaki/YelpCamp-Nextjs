@@ -54,7 +54,7 @@ export default function SignupCard() {
 
   return (
     <Flex
-      minH={"100vh"}
+      h={"80vh"}
       align={"center"}
       justify={"center"}
       bg={useColorModeValue("gray.50", "gray.800")}
