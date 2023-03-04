@@ -35,6 +35,7 @@ export type PostProps = {
 };
 
 const Post: React.FC<{ post: PostProps }> = ({ post }) => {
+  console.log(post.author);
   return (
     <Box
       maxW={"445px"}
@@ -80,15 +81,21 @@ const Post: React.FC<{ post: PostProps }> = ({ post }) => {
           {post.description}
         </Text>
       </Stack>
-      <Stack mt={6} direction={"row"} spacing={4} align={"center"}>
-        <Avatar
-          src={"https://avatars0.githubusercontent.com/u/1164541?v=4"}
-          alt={"Author"}
-        />
-        <Stack direction={"column"} spacing={0} fontSize={"sm"}>
+      <Stack
+        mt={6}
+        direction={"row"}
+        spacing={4}
+        align={"center"}
+        justifyContent="space-between"
+      >
+        <Flex alignItems="center">
+          <Avatar
+            src={"https://avatars0.githubusercontent.com/u/1164541?v=4"}
+            alt={"Author"}
+            mr={4}
+          />
           <Text fontWeight={600}>{post.author.name}</Text>
-          <Text color={"gray.500"}>{post.author.email}</Text>
-        </Stack>
+        </Flex>
         <NextLink href={`/camps/${post.id}`} passHref>
           <Link color="green">View More</Link>
         </NextLink>
