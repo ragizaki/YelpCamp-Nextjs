@@ -20,7 +20,7 @@ type Props = {
 const Camps: React.FC<Props> = ({ posts }) => {
   return (
     <Layout>
-      <Box className="page" pt={5}>
+      <Box>
         <Heading mb={5}>All Campsites</Heading>
         <PostGrid posts={posts} />
       </Box>
