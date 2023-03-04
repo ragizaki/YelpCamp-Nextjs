@@ -39,10 +39,10 @@ interface Props {
 
 const Posts: React.FC<Props> = ({ posts }) => {
   return (
-    <Layout>
+    <>
       <Text>My Posts</Text>
       {posts && <PostGrid posts={posts} />}
-    </Layout>
+    </>
   );
 };
 

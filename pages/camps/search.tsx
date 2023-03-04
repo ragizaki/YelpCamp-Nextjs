@@ -1,6 +1,5 @@
 import { GetServerSideProps } from "next";
 import { PostProps } from "@components/Post";
-import Layout from "@components/Layout";
 import PostGrid from "@components/PostGrid";
 import { Text } from "@chakra-ui/react";
 
@@ -26,12 +25,12 @@ interface Props {
 
 const SearchedCamps: React.FC<Props> = ({ posts, term }) => {
   return (
-    <Layout>
+    <>
       <Text fontSize="3xl" mb={2}>
         Search Results for <strong>{term}</strong>
       </Text>
       <PostGrid posts={posts} />
-    </Layout>
+    </>
   );
 };
 

@@ -1,6 +1,5 @@
 import React from "react";
 import { GetServerSideProps } from "next";
-import Layout from "@components/Layout";
 import { PostProps } from "@components/Post";
 import PostGrid from "@components/PostGrid";
 import { Box, Heading } from "@chakra-ui/react";
@@ -19,12 +18,10 @@ type Props = {
 
 const Camps: React.FC<Props> = ({ posts }) => {
   return (
-    <Layout>
-      <Box>
-        <Heading mb={5}>All Campsites</Heading>
-        <PostGrid posts={posts} />
-      </Box>
-    </Layout>
+    <>
+      <Heading mb={5}>All Campsites</Heading>
+      <PostGrid posts={posts} />
+    </>
   );
 };
 

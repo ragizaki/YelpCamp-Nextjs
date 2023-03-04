@@ -1,5 +1,4 @@
 import { GetServerSideProps } from "next";
-import Layout from "@components/Layout";
 import Router from "next/router";
 import { PostProps } from "@components/Post";
 import { useSession } from "next-auth/react";
@@ -42,7 +41,7 @@ const Post: React.FC<{ post: PostProps }> = ({ post }) => {
   };
 
   return (
-    <Layout>
+    <>
       <div>
         <h2>{post.name}</h2>
         <p>
@@ -87,7 +86,7 @@ const Post: React.FC<{ post: PostProps }> = ({ post }) => {
           </Box>
         ))}
       </Stack>
-    </Layout>
+    </>
   );
 };
 

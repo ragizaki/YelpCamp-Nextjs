@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Layout from "../components/Layout";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import {
@@ -67,80 +66,78 @@ const Camp: React.FC = () => {
   const placeholderStyles = { opacity: 1, color: "gray.500" };
 
   return (
-    <Layout>
-      <Stack
-        as="form"
-        onSubmit={submitData}
-        spacing={3}
-        px={{ sm: "0", md: "40" }}
-      >
-        <Text fontSize="3xl">Create Campsite</Text>
+    <Stack
+      as="form"
+      onSubmit={submitData}
+      spacing={3}
+      px={{ sm: "0", md: "40" }}
+    >
+      <Text fontSize="3xl">Create Campsite</Text>
+      <Input
+        autoFocus
+        onChange={(e) => setName(e.target.value)}
+        placeholder="Title"
+        _placeholder={placeholderStyles}
+        value={name}
+        borderColor="gray.400"
+      />
+      <InputGroup>
+        <InputLeftElement
+          pointerEvents="none"
+          color="gray.500"
+          fontSize="1.2em"
+          children="$"
+        />
         <Input
-          autoFocus
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Title"
+          onChange={handlePriceChange}
+          value={price}
+          type="number"
+          placeholder="Price"
           _placeholder={placeholderStyles}
-          value={name}
           borderColor="gray.400"
         />
-        <InputGroup>
-          <InputLeftElement
-            pointerEvents="none"
-            color="gray.500"
-            fontSize="1.2em"
-            children="$"
-          />
-          <Input
-            onChange={handlePriceChange}
-            value={price}
-            type="number"
-            placeholder="Price"
-            _placeholder={placeholderStyles}
-            borderColor="gray.400"
-          />
-        </InputGroup>
-        <HStack spacing={5}>
-          <Input
-            onChange={(e) => setCity(e.target.value)}
-            value={city}
-            placeholder="City"
-            _placeholder={placeholderStyles}
-            w="50%"
-            borderColor="gray.400"
-          />
-          <Input
-            onChange={(e) => setCountry(e.target.value)}
-            value={country}
-            placeholder="Country"
-            _placeholder={placeholderStyles}
-            w="50%"
-            borderColor="gray.400"
-          />
-        </HStack>
-        <Textarea
-          cols={50}
-          onChange={(e) => setDesc(e.target.value)}
-          placeholder="Description"
+      </InputGroup>
+      <HStack spacing={5}>
+        <Input
+          onChange={(e) => setCity(e.target.value)}
+          value={city}
+          placeholder="City"
           _placeholder={placeholderStyles}
-          rows={8}
-          value={desc}
+          w="50%"
           borderColor="gray.400"
         />
-        <div>
-          <Button
-            isLoading={loading}
-            colorScheme="green"
-            disabled={!name || !desc}
-            type="submit"
-          >
-            Create
-          </Button>
-          <Button as="a" href="#" onClick={() => router.push("/")} ml={3}>
-            Cancel
-          </Button>
-        </div>
-      </Stack>
-    </Layout>
+        <Input
+          onChange={(e) => setCountry(e.target.value)}
+          value={country}
+          placeholder="Country"
+          _placeholder={placeholderStyles}
+          w="50%"
+          borderColor="gray.400"
+        />
+      </HStack>
+      <Textarea
+        cols={50}
+        onChange={(e) => setDesc(e.target.value)}
+        placeholder="Description"
+        _placeholder={placeholderStyles}
+        rows={8}
+        value={desc}
+        borderColor="gray.400"
+      />
+      <div>
+        <Button
+          isLoading={loading}
+          colorScheme="green"
+          disabled={!name || !desc}
+          type="submit"
+        >
+          Create
+        </Button>
+        <Button as="a" href="#" onClick={() => router.push("/")} ml={3}>
+          Cancel
+        </Button>
+      </div>
+    </Stack>
   );
 };
 
