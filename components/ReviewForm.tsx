@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import StarRating from "react-star-rating-component";
 import { useRouter } from "next/router";
-import { Button, Text, Textarea } from "@chakra-ui/react";
+import { Button, Text, Textarea, Link } from "@chakra-ui/react";
+import { useSession } from "next-auth/react";
+import NextLink from "next/link";
 
-const Post: React.FC = () => {
+const ReviewForm: React.FC = () => {
   const [rating, setRating] = useState(0);
   const [description, setDescription] = useState("");
 
+  const { data: session } = useSession();
   const router = useRouter();
 
   const handleFormSubmit = async (e: React.SyntheticEvent) => {
@@ -30,19 +33,49 @@ const Post: React.FC = () => {
       <Text fontSize="1.8rem" fontWeight={500}>
         Leave a Rating
       </Text>
-      <div style={{ fontSize: "1.7rem" }}>
-        <StarRating name="rating" onStarClick={(value) => setRating(value)} />
-      </div>
-      <Textarea
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        placeholder="Tell us what you think"
-        required
-      />
-      <Button mt={3} type="submit">
-        Submit
-      </Button>
+      {session ? (
+        <>
+          <div style={{ fontSize: "1.7rem" }}>
+            <StarRating
+              name="rating"
+              onStarClick={(value) => setRating(value)}
+            />
+          </div>
+          <Textarea
+            borderColor="gray"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Tell us what you think"
+            required
+          />
+          <Button
+            bg={"green.400"}
+            _hover={{ bg: "green.300" }}
+            type="submit"
+            color={"white"}
+            mt={3}
+          >
+            Submit
+          </Button>
+        </>
+      ) : (
+        <Text>
+          Please{" "}
+          <NextLink href="/auth/signin">
+            <Link color={"blue.600"} textDecoration="underline">
+              Login
+            </Link>
+          </NextLink>{" "}
+          or{" "}
+          <NextLink href="/auth/signup">
+            <Link color={"blue.600"} textDecoration="underline">
+              Sign Up
+            </Link>
+          </NextLink>{" "}
+          to leave a review
+        </Text>
+      )}
     </form>
   );
 };
-export default Post;
+export default ReviewForm;
