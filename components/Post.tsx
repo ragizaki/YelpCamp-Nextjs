@@ -35,7 +35,6 @@ export type PostProps = {
 };
 
 const Post: React.FC<{ post: PostProps }> = ({ post }) => {
-  console.log(post.author);
   return (
     <Box
       maxW={"445px"}
