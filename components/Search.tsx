@@ -23,6 +23,7 @@ const Search: React.FC = () => {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           borderColor="gray.400"
+          required
         />
         <IconButton
           aria-label="Search camps"
