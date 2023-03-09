@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
+import ImageUpload from "@components/ImageUpload";
 import {
   Text,
   Input,
@@ -10,7 +11,6 @@ import {
   InputLeftElement,
   Button,
   HStack,
-  useToast,
   Spinner,
   Center,
 } from "@chakra-ui/react";
@@ -21,6 +21,7 @@ const Camp: React.FC = () => {
   const [price, setPrice] = useState("");
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
+  const [photo, setPhoto] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { status } = useSession();
@@ -45,7 +46,7 @@ const Camp: React.FC = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const body = { name, desc, price, city, country };
+      const body = { name, desc, price, city, country, photo };
       const res = await fetch(`http://localhost:3000/api/post`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -124,6 +125,7 @@ const Camp: React.FC = () => {
         value={desc}
         borderColor="gray.400"
       />
+      <ImageUpload setPhoto={setPhoto} />
       <div>
         <Button
           isLoading={loading}
@@ -133,7 +135,7 @@ const Camp: React.FC = () => {
         >
           Create
         </Button>
-        <Button as="a" href="#" onClick={() => router.push("/")} ml={3}>
+        <Button onClick={() => router.push("/")} ml={3}>
           Cancel
         </Button>
       </div>
