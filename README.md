@@ -29,3 +29,7 @@ Next has been really nice to work with. The performance time is incredible, and 
 ### NextAuth
 
 I have mixed feelings with NextAuth. This tool does not having amazing support / documentation for client credentials (username and password registration). For this reason, I would suggest only using this authentication library if you intend to support social providers (i.e. Google, Github, Facebook SSO). Otherwise, the client and server functions are easy to use and straightforward, and making checking authentication and getting sessions extremely easy.
+
+## Incoming
+
+I want to migrate this project over to <a href="https://nextjs.org/blog/next-13">Next.js 13</a> to test out the new `app` directory. Particularly, I'm interested in using React Server Components to render data on the server for quicker loading times and caching. I also want to try out the new routing system, to have easier loading and error states.
