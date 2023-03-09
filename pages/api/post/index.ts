@@ -18,7 +18,7 @@ export default async function handle(
 }
 
 async function handlePOST(req: NextApiRequest, res: NextApiResponse) {
-  const { name, desc, price, city, country } = req.body;
+  const { name, desc, price, city, country, photo } = req.body;
 
   const session = await getSession({ req });
   if (session) {
@@ -30,6 +30,7 @@ async function handlePOST(req: NextApiRequest, res: NextApiResponse) {
         country,
         price: parseInt(price),
         author: { connect: { email: session?.user?.email } },
+        image: photo,
       },
     });
     res.json(result);
