@@ -73,8 +73,13 @@ const Header: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Box borderBottom={1} borderStyle="solid" borderColor="gray.300" px={4}>
-      <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
+    <Box borderBottom={1} borderStyle="solid" borderColor="gray.300">
+      <Flex
+        h={16}
+        alignItems={"center"}
+        justifyContent={"space-between"}
+        px={10}
+      >
         <IconButton
           size={"md"}
           icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
@@ -108,7 +113,6 @@ const Header: React.FC = () => {
                 color="gray.600"
                 _hover={{ color: "black" }}
                 _focus={{ textDecor: "none" }}
-                to
               >
                 Add Camp
               </Link>
