@@ -1,5 +1,6 @@
 import { GetServerSideProps } from "next";
 import Router from "next/router";
+import Image from "next/image";
 import { PostProps } from "@components/Post";
 import { useSession } from "next-auth/react";
 import { Button, Text, Box, Stack, Avatar, Flex, Grid } from "@chakra-ui/react";
@@ -46,19 +47,36 @@ const Post: React.FC<{ post: PostProps }> = ({ post }) => {
       gap={8}
     >
       <Box>
-        <h2>{post.name}</h2>
-        <p>
-          Located in {post.city}, {post.country}
-        </p>
-        <p>Price per night: ${post.price}</p>
-        <p>By {post?.author?.name || "Unknown author"}</p>
-        <Text>{post.description}</Text>
+        <Text fontSize="3xl">{post.name}</Text>
+        <Stack direction="row" spacing={2}>
+          <Text>
+            Located in {post.city}, {post.country}
+          </Text>
+          <Text>|</Text>
+          <Text>
+            <strong>${post.price} CAD </strong>night
+          </Text>
+        </Stack>
+        <div
+          style={{
+            position: "relative",
+            width: "100%",
+            aspectRatio: "16/9",
+            overflow: "hidden",
+            borderRadius: "1rem",
+            marginTop: "0.5rem",
+          }}
+        >
+          <Image src={post.image} layout="fill" objectFit="cover" />
+        </div>
+        <Text mt={1}>By {post?.author?.name || "Unknown author"}</Text>
+        <Text fontSize="xl">{post.description}</Text>
         {userHasValidSession && postBelongsToUser && (
-          <Button onClick={() => deletePost(post.id)} colorScheme="red">
+          <Button onClick={() => deletePost(post.id)} colorScheme="red" mt={1}>
             Delete
           </Button>
         )}
-        <ReviewForm />
+        {!postBelongsToUser && <ReviewForm />}
       </Box>
       <Stack spacing={3} mt={3}>
         <Text fontSize="2xl" fontWeight={500}>
@@ -71,7 +89,7 @@ const Post: React.FC<{ post: PostProps }> = ({ post }) => {
           <Box border="1px solid grey" borderRadius="lg" p={3} key={id}>
             <Flex alignItems="center" justifyContent="space-between" mb={2}>
               <Box>
-                <Avatar mr={2} size="sm" alt={`rating of ${rating}`} />
+                <Avatar mr={2} size="sm" />
                 {user?.name}
               </Box>
               {user?.name === session?.user?.name && (
