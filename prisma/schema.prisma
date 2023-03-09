@@ -7,28 +7,28 @@ datasource db {
   url      = "file:./dev.db"
 }
 
-
 model Post {
-  id          Int     @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   name        String
   price       Int
   description String
   city        String
   country     String
-  author      User?   @relation(fields: [authorId], references: [id])
+  image       String
   authorId    String?
+  author      User?    @relation(fields: [authorId], references: [id])
   reviews     Review[]
 }
 
 model Review {
-  id            String    @id @default(cuid())
-  userId        String
-  postId        Int
-  rating        Int
-  description   String
-  createdAt     DateTime  @default(now())
-  user          User      @relation(fields: [userId], references: [id])
-  post          Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  id          String   @id @default(cuid())
+  userId      String
+  postId      Int
+  rating      Int
+  description String
+  createdAt   DateTime @default(now())
+  post        Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user        User     @relation(fields: [userId], references: [id])
 }
 
 model Account {
@@ -52,10 +52,10 @@ model Session {
   sessionToken String   @unique
   userId       String
   expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   accessToken  String   @unique
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
@@ -67,10 +67,10 @@ model User {
   image         String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
-  posts         Post[]
   accounts      Account[]
-  sessions      Session[]
+  posts         Post[]
   reviews       Review[]
+  sessions      Session[]
 }
 
 model VerificationToken {
