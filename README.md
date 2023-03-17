@@ -16,7 +16,12 @@ Users have the ability to:
 - Access a list of their posts
 - Register / login seamlessly
 
-## Thoughts
+## What I Learned
+- Handle image uploads with Next.js
+- Authenticate and authorize users
+- ORM for the database
+- Typesafe database queries with Prisma
+- Deployment with Vercel
 
 ### Prisma
 
