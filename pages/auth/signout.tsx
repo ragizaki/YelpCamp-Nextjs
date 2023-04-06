@@ -8,7 +8,6 @@ interface Props {
 }
 
 export default function logout({ callbackUrl }: Props) {
-  logger.debug(`callbackUrl`);
   logger.debug(callbackUrl);
   signOut({ callbackUrl });
   return <div></div>;
