@@ -57,7 +57,6 @@ const options: NextAuthOptions = {
     signOut: "/auth/signout",
   },
   adapter: PrismaAdapter(prisma),
-  secret: process.env.SECRET,
   logger: {
     error: (code, metadata) => {
       logger.error(code, metadata);
