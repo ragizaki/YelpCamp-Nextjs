@@ -1,6 +1,5 @@
-import { PrismaClient, Prisma } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "@lib/prisma";
+import { type Prisma } from "@prisma/client";
 
 const userData: Prisma.UserCreateInput[] = [
   {
@@ -14,6 +13,7 @@ const userData: Prisma.UserCreateInput[] = [
           description: "Nice little campsite",
           city: "Mississauga",
           country: "Canada",
+          image: "/campsite.jpg",
         },
       ],
     },
@@ -29,6 +29,7 @@ const userData: Prisma.UserCreateInput[] = [
           description: "Nice little campsite",
           city: "Mississauga",
           country: "Canada",
+          image: "/campsite.jpg",
         },
       ],
     },
@@ -44,6 +45,7 @@ const userData: Prisma.UserCreateInput[] = [
           description: "Nice little campsite",
           city: "Mississauga",
           country: "Canada",
+          image: "/campsite.jpg",
         },
         {
           name: "Mississauga Camp",
@@ -51,6 +53,7 @@ const userData: Prisma.UserCreateInput[] = [
           description: "Nice little campsite",
           city: "Mississauga",
           country: "Canada",
+          image: "/campsite.jpg",
         },
       ],
     },
@@ -58,7 +61,6 @@ const userData: Prisma.UserCreateInput[] = [
 ];
 
 async function main() {
-  console.log(`Start seeding ...`);
   for (const u of userData) {
     const user = await prisma.user.create({
       data: u,
