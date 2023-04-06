@@ -7,7 +7,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   let { q } = context.query;
   const term = typeof q === "string" ? q : q[0];
 
-  const res = await fetch(`http://localhost:3000/api/post/search?q=${term}`);
+  const res = await fetch(
+    `${process.env.NEXTAUTH_URL}/api/post/search?q=${term}`
+  );
   const posts = await res.json();
 
   return {

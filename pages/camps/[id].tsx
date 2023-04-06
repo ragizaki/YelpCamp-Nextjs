@@ -9,7 +9,7 @@ import StarRating from "react-star-rating-component";
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const postId = Number(params?.id);
-  const res = await fetch(`http://localhost:3000/api/post/${postId}`);
+  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/post/${postId}`);
   const post = await res.json();
 
   return {
@@ -18,7 +18,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 };
 
 async function deletePost(id: number): Promise<void> {
-  const res = await fetch(`http://localhost:3000/api/post/${id}`, {
+  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/post/${id}`, {
     method: "DELETE",
   });
   await res.json();
@@ -35,9 +35,12 @@ const Post: React.FC<{ post: PostProps }> = ({ post }) => {
   const postBelongsToUser = session?.user?.email === post.author?.email;
 
   const handleReviewDelete = async (postId: number, reviewId: string) => {
-    await fetch(`http://localhost:3000/api/post/${postId}/review/${reviewId}`, {
-      method: "DELETE",
-    });
+    await fetch(
+      `${process.env.NEXTAUTH_URL}/api/post/${postId}/review/${reviewId}`,
+      {
+        method: "DELETE",
+      }
+    );
     await Router.reload();
   };
 

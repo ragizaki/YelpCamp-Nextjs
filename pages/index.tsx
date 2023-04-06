@@ -5,7 +5,7 @@ import PostGrid from "@components/PostGrid";
 import { Box, Heading } from "@chakra-ui/react";
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const res = await fetch("http://localhost:3000/api/post");
+  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/post`);
   const posts = await res.json();
   return {
     props: { posts },
